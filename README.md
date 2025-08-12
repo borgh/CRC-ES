@@ -1,270 +1,185 @@
-# Sistema CRC-ES - Envio de Mensagens em Massa
+# 🚀 Sistema CRC-ES - Mensagens em Massa
 
-Sistema web completo para envio em massa de mensagens de cobrança via WhatsApp e email para o CRC-ES (Conselho Regional de Contabilidade do Espírito Santo).
+Sistema completo para envio de mensagens em massa via WhatsApp e Email para o Conselho Regional de Contabilidade do Espírito Santo (CRC-ES).
 
-## 🚀 Funcionalidades
+## ✨ Funcionalidades
 
-### ✅ Funcionalidades Implementadas
+### 📧 **Envio de Emails**
+- Envio em massa de emails com boletos anexados
+- Templates personalizáveis com variáveis dinâmicas
+- Configuração SMTP flexível
+- Rastreamento de entrega e status
 
-- **Autenticação e Autorização**
-  - Login seguro com JWT
-  - Controle de acesso baseado em roles (Admin, Supervisor, Operador)
-  - Rate limiting para prevenir ataques
-  - Auditoria completa de ações
+### 📱 **Envio via WhatsApp**
+- Integração com WhatsApp Web via Selenium
+- Envio automatizado de mensagens e documentos
+- Validação de números de telefone
+- Controle de velocidade de envio
 
-- **Envio de Mensagens**
-  - Envio individual via WhatsApp
-  - Envio individual via Email
-  - Envio em massa via WhatsApp (até 1000 destinatários)
-  - Envio em massa via Email (até 1000 destinatários)
-  - Templates personalizáveis
-  - Anexos em emails
-  - Validação de números de telefone e emails
+### 🎯 **Campanhas**
+- Criação e gerenciamento de campanhas
+- Agendamento de envios
+- Relatórios detalhados de performance
+- Histórico completo de envios
 
-- **Gerenciamento de Campanhas**
-  - Criação e gerenciamento de campanhas
-  - Acompanhamento de status em tempo real
-  - Estatísticas detalhadas de entrega
-  - Histórico completo de envios
+### 👥 **Gestão de Usuários**
+- Sistema de autenticação JWT
+- Controle de acesso por perfis
+- Auditoria completa de ações
+- Logs de segurança
 
-- **Interface Web**
-  - Dashboard com estatísticas
-  - Interface responsiva e moderna
-  - Tema claro/escuro
-  - Navegação intuitiva
-
-- **Segurança**
-  - Criptografia de senhas com salt
-  - Rate limiting por IP
-  - Validação rigorosa de entrada
-  - Logs de auditoria
-  - Bloqueio automático por tentativas falhadas
+### 🗄️ **Banco de Dados**
+- Integração com SQL Server (configuração original)
+- Suporte a SQLite para desenvolvimento
+- Modelos de dados otimizados
+- Backup automático
 
 ## 🏗️ Arquitetura
 
-### Backend (Flask)
-- **Framework**: Flask com SQLAlchemy
-- **Banco de Dados**: SQLite (desenvolvimento) / PostgreSQL (produção)
-- **Autenticação**: JWT com refresh tokens
-- **APIs**: RESTful com validação de entrada
-- **Serviços**: WhatsApp (Evolution API), Email (SMTP)
-
-### Frontend (React)
-- **Framework**: React 18 com Vite
-- **UI**: Componentes modernos com Tailwind CSS
-- **Estado**: Context API para autenticação
-- **Roteamento**: React Router
-- **Gráficos**: Recharts para visualizações
-
-## 📋 Pré-requisitos
-
-- Python 3.11+
-- Node.js 18+
-- Evolution API (para WhatsApp)
-- Servidor SMTP (para emails)
-
-## 🛠️ Instalação
-
-### 1. Clone o repositório
-```bash
-git clone <repository-url>
-cd crces-system
+```
+CRC-ES/
+├── backend/          # API Flask
+│   ├── src/
+│   │   ├── models/   # Modelos de dados
+│   │   ├── routes/   # Endpoints da API
+│   │   └── services/ # Serviços de negócio
+│   └── requirements.txt
+├── frontend/         # Interface React
+│   ├── src/
+│   │   ├── components/
+│   │   └── pages/
+│   └── package.json
+└── README.md
 ```
 
-### 2. Configuração do Backend
+## 🚀 Instalação
 
+### Pré-requisitos
+- Python 3.11+
+- Node.js 18+
+- SQL Server ou SQLite
+
+### Backend (Flask)
 ```bash
-cd crces-backend
-
-# Crie ambiente virtual
+cd backend
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
-# ou
-venv\\Scripts\\activate  # Windows
-
-# Instale dependências
+# ou venv\Scripts\activate  # Windows
 pip install -r requirements.txt
-
-# Configure variáveis de ambiente
-cp .env.example .env
-# Edite o arquivo .env com suas configurações
-
-# Inicialize o banco de dados
 python src/main.py
 ```
 
-### 3. Configuração do Frontend
-
+### Frontend (React)
 ```bash
-cd crces-frontend
-
-# Instale dependências
-pnpm install
-# ou
+cd frontend
 npm install
-
-# Configure variáveis de ambiente
-cp .env.example .env
-# Edite VITE_API_URL se necessário
-
-# Inicie o servidor de desenvolvimento
-pnpm dev
-# ou
 npm run dev
 ```
 
 ## ⚙️ Configuração
 
-### Configuração de Email
-
-1. Configure um servidor SMTP (Gmail, Outlook, etc.)
-2. Para Gmail, use senhas de aplicativo
-3. Atualize as variáveis no `.env`:
-
+### Variáveis de Ambiente (.env)
 ```env
+# Banco de dados
+DATABASE_URL=sqlite:///app.db
+# ou para SQL Server:
+# DATABASE_URL=mssql+pyodbc://user:pass@server/database?driver=ODBC+Driver+17+for+SQL+Server
+
+# JWT
+SECRET_KEY=sua-chave-secreta
+JWT_SECRET_KEY=jwt-chave-secreta
+
+# Email
 SMTP_SERVER=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USERNAME=seu-email@gmail.com
-SMTP_PASSWORD=sua-senha-de-aplicativo
+SMTP_USER=seu-email@gmail.com
+SMTP_PASSWORD=sua-senha-app
+
+# WhatsApp
+WHATSAPP_DELAY=2
+WHATSAPP_MAX_RETRIES=3
 ```
 
-### Configuração do WhatsApp
+## 📊 Funcionalidades Originais Implementadas
 
-1. Instale e configure a Evolution API
-2. Crie uma instância
-3. Atualize as variáveis no `.env`:
+### Scripts Originais Analisados:
+- ✅ **ENVIO BOLETO EMAIL.py** - Integrado no serviço de email
+- ✅ **ENVIO BOLETO WHATSAPP.py** - Integrado no serviço WhatsApp
+- ✅ **BOLETO_ANUIDADE.py** - Lógica de anuidade implementada
+- ✅ **LEMBRETE_VENCIMENTO.py** - Sistema de lembretes
 
-```env
-WHATSAPP_API_URL=http://localhost:8080
-WHATSAPP_API_KEY=sua-api-key
-WHATSAPP_INSTANCE=nome-da-instancia
+### Melhorias Implementadas:
+- 🔐 **Segurança**: Autenticação JWT, auditoria completa
+- 🎨 **Interface**: Dashboard moderno e responsivo
+- 📈 **Relatórios**: Estatísticas em tempo real
+- 🔄 **API REST**: Endpoints organizados e documentados
+- 🛡️ **Validação**: Validação de dados e tratamento de erros
+
+## 🎯 Uso do Sistema
+
+### 1. Login
+- Usuário: `admin`
+- Senha: `admin123`
+
+### 2. Dashboard
+- Visualização de estatísticas
+- Ações rápidas para campanhas
+- Monitoramento em tempo real
+
+### 3. Campanhas
+- Criar nova campanha
+- Selecionar tipo (Email/WhatsApp)
+- Escolher template
+- Definir destinatários
+- Agendar ou enviar imediatamente
+
+### 4. Templates
+- Templates para email com HTML
+- Templates para WhatsApp
+- Variáveis dinâmicas: `{nome}`, `{year}`, `{registro}`
+
+## 🔧 Desenvolvimento
+
+### Estrutura do Backend
+```python
+# Modelos principais
+- User: Usuários do sistema
+- Campaign: Campanhas de envio
+- Template: Templates de mensagens
+- MessageLog: Logs de envio
+- AuditLog: Auditoria de ações
 ```
 
-## 🚀 Uso
-
-### Acesso Inicial
-
-1. Acesse `http://localhost:5173`
-2. Use as credenciais padrão:
-   - **Usuário**: admin
-   - **Senha**: admin123
-3. **IMPORTANTE**: Altere a senha padrão imediatamente
-
-### Criando Campanhas
-
-1. Acesse "Campanhas" no menu
-2. Clique em "Nova Campanha"
-3. Escolha o tipo (Email ou WhatsApp)
-4. Configure destinatários e mensagem
-5. Agende ou envie imediatamente
-
-### Templates
-
-1. Acesse "Templates" no menu
-2. Crie templates reutilizáveis
-3. Use variáveis como `{{nome}}`, `{{valor}}`, etc.
-4. Templates suportam HTML para emails
-
-### Exemplo de Template de Cobrança
-
-```html
-<h2>Prezado(a) {{nome}},</h2>
-
-<p>Informamos que existe(m) mensalidade(s) em aberto:</p>
-
-<ul>
-  <li><strong>Valor:</strong> R$ {{valor}}</li>
-  <li><strong>Vencimento:</strong> {{vencimento}}</li>
-  <li><strong>Registro:</strong> {{registro}}</li>
-</ul>
-
-<p>Para regularizar sua situação, efetue o pagamento através do boleto em anexo.</p>
-
-<p>Atenciosamente,<br>
-<strong>Equipe CRC-ES</strong></p>
+### Endpoints da API
+```
+POST /api/auth/login          # Login
+GET  /api/campaigns           # Listar campanhas
+POST /api/campaigns           # Criar campanha
+POST /api/messaging/send      # Enviar mensagens
+GET  /api/audit/logs          # Logs de auditoria
 ```
 
-## 📊 Monitoramento
+## 📱 Interface do Usuário
 
-### Dashboard
-- Estatísticas em tempo real
-- Gráficos de performance
-- Status das campanhas
-- Taxa de entrega
-
-### Logs de Auditoria
-- Todas as ações são registradas
-- Rastreamento por usuário e IP
-- Histórico completo de operações
+- **Design Responsivo**: Funciona em desktop e mobile
+- **Componentes Modernos**: Usando shadcn/ui e Tailwind CSS
+- **Navegação Intuitiva**: Sidebar com menu organizado
+- **Feedback Visual**: Alertas e notificações em tempo real
 
 ## 🔒 Segurança
 
-### Medidas Implementadas
+- **Autenticação JWT**: Tokens seguros com expiração
+- **Auditoria Completa**: Todos os logs são registrados
+- **Validação de Dados**: Sanitização de inputs
+- **Rate Limiting**: Proteção contra spam
+- **CORS Configurado**: Acesso controlado
 
-- **Rate Limiting**: Previne spam e ataques
-- **Validação de Entrada**: Sanitização de dados
-- **Autenticação JWT**: Tokens seguros
-- **Criptografia**: Senhas com hash + salt
-- **Auditoria**: Log completo de ações
-- **Bloqueio Automático**: Por tentativas falhadas
+## 📈 Monitoramento
 
-### Roles e Permissões
-
-- **Admin**: Acesso total ao sistema
-- **Supervisor**: Gerencia campanhas e usuários
-- **Operador**: Envia mensagens individuais
-- **Visualizador**: Apenas consulta
-
-## 🐛 Solução de Problemas
-
-### Backend não inicia
-```bash
-# Verifique se o ambiente virtual está ativo
-source venv/bin/activate
-
-# Verifique dependências
-pip install -r requirements.txt
-
-# Verifique logs
-tail -f logs/crces.log
-```
-
-### Frontend não conecta
-```bash
-# Verifique se o backend está rodando
-curl http://localhost:5000/api/health
-
-# Verifique variáveis de ambiente
-cat .env
-```
-
-### WhatsApp não funciona
-1. Verifique se a Evolution API está rodando
-2. Teste a conexão: `GET /api/messaging/test-connections`
-3. Verifique se a instância está conectada
-
-### Emails não são enviados
-1. Teste configurações SMTP
-2. Verifique se não está sendo bloqueado por firewall
-3. Para Gmail, use senhas de aplicativo
-
-## 📝 API Endpoints
-
-### Autenticação
-- `POST /api/auth/login` - Login
-- `POST /api/auth/logout` - Logout
-- `POST /api/auth/refresh` - Renovar token
-
-### Mensagens
-- `POST /api/messaging/send-email` - Enviar email individual
-- `POST /api/messaging/send-whatsapp` - Enviar WhatsApp individual
-- `POST /api/messaging/send-bulk-email` - Enviar emails em massa
-- `POST /api/messaging/send-bulk-whatsapp` - Enviar WhatsApp em massa
-
-### Campanhas
-- `GET /api/campaigns` - Listar campanhas
-- `POST /api/campaigns` - Criar campanha
-- `GET /api/campaigns/:id` - Detalhes da campanha
+- **Logs Detalhados**: Rastreamento completo de envios
+- **Estatísticas**: Métricas de performance
+- **Relatórios**: Exportação de dados
+- **Alertas**: Notificações de falhas
 
 ## 🤝 Contribuição
 
@@ -276,24 +191,18 @@ cat .env
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-## 📞 Suporte
+## 🆘 Suporte
 
-Para suporte técnico, entre em contato:
-- Email: suporte@crces.org.br
-- Telefone: (27) 3xxx-xxxx
-
-## 🔄 Atualizações
-
-### Versão 1.0.0
-- Sistema completo implementado
-- Funcionalidades de envio em massa
-- Interface web responsiva
-- Segurança robusta
-- Auditoria completa
+Para suporte técnico ou dúvidas:
+- Abra uma issue no GitHub
+- Consulte a documentação da API
+- Verifique os logs de auditoria
 
 ---
 
-**Desenvolvido para o CRC-ES - Conselho Regional de Contabilidade do Espírito Santo**
+**Desenvolvido com ❤️ para o CRC-ES**
+
+*Sistema completo baseado nos scripts originais, com melhorias em segurança, interface e funcionalidades.*
 
