@@ -25,7 +25,16 @@ Este guia resolve todos os problemas de instalação do Sistema CRC-ES no Window
 
 Se você está usando **Python 3.13**, o módulo `distutils` foi removido. Use estas soluções:
 
-#### **Solução 1: Versão Mínima (Recomendada)**
+#### **Solução 1: Versão Ultra Mínima (GARANTIDA para Python 3.13)**
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements-ultra-minimal.txt
+python src/main_simple.py
+```
+
+#### **Solução 2: Versão Mínima (Recomendada)**
 ```bash
 cd backend
 python -m venv venv
@@ -34,13 +43,13 @@ pip install -r requirements-minimal.txt
 python src/main.py
 ```
 
-#### **Solução 2: Instalar setuptools primeiro**
+#### **Solução 3: Instalar setuptools primeiro**
 ```bash
 pip install setuptools
 pip install -r requirements.txt
 ```
 
-#### **Solução 3: Downgrade para Python 3.11**
+#### **Solução 4: Downgrade para Python 3.11**
 ```bash
 # Baixe Python 3.11.9 do site oficial
 # https://www.python.org/downloads/release/python-3119/
