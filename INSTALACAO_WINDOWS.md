@@ -21,6 +21,33 @@ Este guia resolve todos os problemas de instalação do Sistema CRC-ES no Window
 # Baixe do site oficial: https://git-scm.com/download/win
 ```
 
+### ⚠️ **IMPORTANTE: Python 3.13**
+
+Se você está usando **Python 3.13**, o módulo `distutils` foi removido. Use estas soluções:
+
+#### **Solução 1: Versão Mínima (Recomendada)**
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements-minimal.txt
+python src/main.py
+```
+
+#### **Solução 2: Instalar setuptools primeiro**
+```bash
+pip install setuptools
+pip install -r requirements.txt
+```
+
+#### **Solução 3: Downgrade para Python 3.11**
+```bash
+# Baixe Python 3.11.9 do site oficial
+# https://www.python.org/downloads/release/python-3119/
+```
+
+---
+
 ## 📥 Instalação
 
 ### 1. Clone o Repositório
@@ -38,25 +65,21 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-#### Instalar Dependências (MÉTODO SEGURO)
+#### Instalar Dependências (SOLUÇÃO PYTHON 3.13)
 ```bash
-# Método 1: Instalação padrão
+# MÉTODO 1: Versão mínima (RECOMENDADO para Python 3.13)
+pip install -r requirements-minimal.txt
+
+# MÉTODO 2: Se quiser versão completa (pode dar erro no Python 3.13)
 pip install -r requirements.txt
 
-# Se der erro, use o Método 2:
-pip install --upgrade pip
-pip install --no-cache-dir -r requirements.txt
+# MÉTODO 3: Se der erro "No module named 'distutils'"
+pip install setuptools
+pip install -r requirements-minimal.txt
 
-# Se ainda der erro, use o Método 3:
-pip install Flask==3.0.0
-pip install flask-cors==4.0.0
-pip install Flask-SQLAlchemy==3.1.1
-pip install Flask-JWT-Extended==4.5.3
-pip install python-dotenv==1.0.0
-pip install pandas==1.5.3
-pip install numpy==1.24.4
-pip install selenium==4.15.0
-pip install pyodbc==4.0.39
+# MÉTODO 4: Instalação manual (se todos falharem)
+pip install Flask==3.0.3 flask-cors==4.0.0 Flask-SQLAlchemy==3.1.1
+pip install Flask-JWT-Extended==4.6.0 requests==2.31.0
 ```
 
 #### Configurar Banco de Dados

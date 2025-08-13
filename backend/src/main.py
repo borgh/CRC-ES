@@ -1,9 +1,11 @@
 import os
 import sys
-from dotenv import load_dotenv
 
-# Carregar variáveis de ambiente
-load_dotenv()
+# Configurações de ambiente (sem dotenv)
+os.environ.setdefault('SECRET_KEY', 'crces-sistema-secreto-2025')
+os.environ.setdefault('JWT_SECRET_KEY', 'jwt-crces-2025-secreto')
+os.environ.setdefault('JWT_ACCESS_TOKEN_EXPIRES', '3600')
+os.environ.setdefault('DATABASE_URL', f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}")
 
 # DON'T CHANGE THIS !!!
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))

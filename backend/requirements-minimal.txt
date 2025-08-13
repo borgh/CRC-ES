@@ -1,5 +1,5 @@
-# Sistema CRC-ES - Dependências Backend
-# Compatível com Python 3.13+ (sem distutils)
+# Sistema CRC-ES - Versão Mínima (sem pandas/numpy)
+# Para Python 3.13+ sem problemas de distutils
 
 # Framework principal
 Flask==3.0.3
@@ -12,11 +12,7 @@ Werkzeug==3.0.1
 # Banco de dados
 SQLAlchemy==2.0.25
 
-# Processamento de dados (compatível com Python 3.13)
-pandas==2.1.4
-numpy==1.26.2
-
-# Utilitários
+# Utilitários essenciais
 requests==2.31.0
 email-validator==2.1.0
 python-dateutil==2.8.2
@@ -32,9 +28,3 @@ typing_extensions==4.8.0
 # Logs
 colorlog==6.8.0
 
-# OPCIONAL: Descomente apenas se necessário
-# pyodbc==5.0.1          # Para SQL Server
-# selenium==4.16.0       # Para WhatsApp automação
-# webdriver-manager==4.0.1
-# Pillow==10.0.1
-# openpyxl==3.1.2
