@@ -54,7 +54,21 @@ CRC-ES/
 
 ## 🚀 Instalação
 
-### Pré-requisitos
+### 🪟 **Windows (Recomendado)**
+```bash
+# 1. Clone o repositório
+git clone https://github.com/borgh/CRC-ES.git
+cd CRC-ES
+
+# 2. Execute o instalador automático
+scripts\install_windows.bat
+
+# 3. Siga as instruções na tela
+```
+
+📖 **Guia detalhado:** [INSTALACAO_WINDOWS.md](INSTALACAO_WINDOWS.md)
+
+### 🐧 **Linux/Mac**
 - Python 3.11+
 - Node.js 18+
 - SQL Server ou SQLite
