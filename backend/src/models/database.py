@@ -3,7 +3,6 @@ Configuração do banco de dados para o sistema CRC-ES
 Suporte para SQL Server (produção) e SQLite (desenvolvimento)
 """
 import os
-import pyodbc
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -16,17 +15,23 @@ class DatabaseConfig:
     @staticmethod
     def get_sql_server_connection():
         """Conexão com SQL Server original do CRC-ES"""
-        server = os.getenv('DB_SERVER', 'SERVERSQL\\CRCES')
-        database = os.getenv('DB_DATABASE', 'SCF')
-        username = os.getenv('DB_USERNAME', 'ADMIN')
-        password = os.getenv('DB_PASSWORD', 'DIAVIC')
-        driver = os.getenv('DB_DRIVER', 'SQL Server')
-        
-        connection_string = f'DRIVER={{{driver}}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
-        
         try:
+            # Importa pyodbc apenas quando necessário
+            import pyodbc
+            
+            server = os.getenv('DB_SERVER', 'SERVERSQL\\CRCES')
+            database = os.getenv('DB_DATABASE', 'SCF')
+            username = os.getenv('DB_USERNAME', 'ADMIN')
+            password = os.getenv('DB_PASSWORD', 'DIAVIC')
+            driver = os.getenv('DB_DRIVER', 'SQL Server')
+            
+            connection_string = f'DRIVER={{{driver}}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+            
             connection = pyodbc.connect(connection_string)
             return connection
+        except ImportError:
+            print("pyodbc não instalado. Usando SQLite para desenvolvimento.")
+            return None
         except Exception as e:
             print(f"Erro ao conectar com SQL Server: {e}")
             return None
@@ -57,6 +62,8 @@ class DatabaseConfig:
                 return None
             finally:
                 connection.close()
+        else:
+            print("Usando SQLite para desenvolvimento. Query não executada no SQL Server.")
         return None
 
 # Modelos SQLAlchemy para desenvolvimento
