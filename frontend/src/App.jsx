@@ -1,33 +1,258 @@
-import { useState, useEffect, createContext, useContext } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { Button } from '@/components/ui/button.jsx'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { Input } from '@/components/ui/input.jsx'
-import { Label } from '@/components/ui/label.jsx'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx'
-import { Badge } from '@/components/ui/badge.jsx'
-import { Alert, AlertDescription } from '@/components/ui/alert.jsx'
-import { 
-  Mail, 
-  MessageSquare, 
-  Users, 
-  FileText, 
-  BarChart3, 
-  Settings, 
-  LogOut,
-  Send,
-  Plus,
-  Eye,
-  Edit,
-  Trash2,
-  Download,
-  Upload,
-  CheckCircle,
-  XCircle,
-  Clock,
-  TrendingUp
-} from 'lucide-react'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import './App.css';
+
+// Componente de Login
+const LoginPage = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    // Simulação de login (credenciais hardcoded para demo)
+    if (username === 'admin' && password === 'admin123') {
+      localStorage.setItem('token', 'demo-token');
+      navigate('/dashboard');
+    } else {
+      setError('Usuário ou senha incorretos');
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
+        <div className="text-center mb-6">
+          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-white text-xl font-bold">📊</span>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">CRC-ES</h1>
+          <p className="text-gray-600">Sistema de Mensagens</p>
+        </div>
+
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Usuário
+            </label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Digite seu usuário"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Senha
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Digite sua senha"
+              required
+            />
+          </div>
+
+          {error && (
+            <div className="text-red-600 text-sm">{error}</div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          >
+            {loading ? 'Entrando...' : 'Entrar'}
+          </button>
+        </form>
+
+        <div className="mt-6 text-center text-sm text-gray-600">
+          <p>Credenciais de teste:</p>
+          <p><strong>Usuário:</strong> admin</p>
+          <p><strong>Senha:</strong> admin123</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Componente do Dashboard
+const DashboardPage = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+  const stats = [
+    { title: 'Campanhas Ativas', value: '12', color: 'bg-blue-500' },
+    { title: 'Emails Enviados', value: '1,234', color: 'bg-green-500' },
+    { title: 'WhatsApp Enviados', value: '856', color: 'bg-purple-500' },
+    { title: 'Taxa de Sucesso', value: '98.5%', color: 'bg-orange-500' },
+  ];
+
+  const recentCampaigns = [
+    { name: 'Cobrança Anuidade 2024', type: 'Email', status: 'Concluída', date: '12/08/2024' },
+    { name: 'Lembrete Vencimento', type: 'WhatsApp', status: 'Em andamento', date: '12/08/2024' },
+    { name: 'Boletos Pendentes', type: 'Email', status: 'Agendada', date: '13/08/2024' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                <span className="text-white text-sm font-bold">📊</span>
+              </div>
+              <h1 className="text-xl font-semibold text-gray-900">CRC-ES Dashboard</h1>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+              Sair
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {stats.map((stat, index) => (
+            <div key={index} className="bg-white rounded-lg shadow p-6">
+              <div className="flex items-center">
+                <div className={`w-12 h-12 ${stat.color} rounded-lg flex items-center justify-center mr-4`}>
+                  <span className="text-white text-xl">📈</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick Actions */}
+        <div className="bg-white rounded-lg shadow mb-8">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="text-lg font-medium text-gray-900">Ações Rápidas</h2>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <button className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                📧 Nova Campanha Email
+              </button>
+              <button className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                📱 Nova Campanha WhatsApp
+              </button>
+              <button className="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                📊 Ver Relatórios
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Campaigns */}
+        <div className="bg-white rounded-lg shadow">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="text-lg font-medium text-gray-900">Campanhas Recentes</h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Nome da Campanha
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Tipo
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Data
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {recentCampaigns.map((campaign, index) => (
+                  <tr key={index}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {campaign.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {campaign.type}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        campaign.status === 'Concluída' ? 'bg-green-100 text-green-800' :
+                        campaign.status === 'Em andamento' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-blue-100 text-blue-800'
+                      }`}>
+                        {campaign.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {campaign.date}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+// Componente de Proteção de Rota
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem('token');
+  return token ? children : <Navigate to="/login" />;
+};
+
+// Componente Principal
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route path="/" element={<Navigate to="/login" />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
 
 // Context para autenticação
 const AuthContext = createContext()

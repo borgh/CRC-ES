@@ -80,17 +80,19 @@ python src/main.py
 cd frontend
 ```
 
-#### Instalar Dependências
+#### Instalar Dependências (MÉTODO SEGURO)
 ```bash
-# Método 1: npm (recomendado para Windows)
+# Método 1: Instalação padrão (RECOMENDADO)
 npm install
 
-# Se der erro, use:
+# Se der erro de dependências, use o Método 2:
 npm install --legacy-peer-deps
 
-# Ou use yarn:
-npm install -g yarn
-yarn install
+# Se ainda der erro, use o Método 3 (limpeza completa):
+rmdir /s node_modules
+del package-lock.json
+npm cache clean --force
+npm install --legacy-peer-deps
 ```
 
 #### Iniciar Frontend
